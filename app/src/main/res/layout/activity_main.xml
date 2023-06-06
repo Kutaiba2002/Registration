@@ -84,5 +84,16 @@
         android:onClick="btnSaveOnClick"
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnLoad"
+        android:layout_marginTop="15dp"
+        android:text="Load"
+        android:textSize="27dp"
+        android:layout_gravity="center"
+        android:onClick="btnLoadOnClick"
+        />
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

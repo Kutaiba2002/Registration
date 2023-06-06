@@ -14,7 +14,10 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.Toast;
 
+
 import com.google.gson.Gson;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -24,10 +27,11 @@ private RadioGroup radioGroup;
 private RadioButton radioButton;
 private Switch switchYear;
 private Button btnSave;
+private Button btnLoad;
 
 private SharedPreferences prefs;
 private SharedPreferences.Editor editor;
-
+private ArrayList<Student> arrayList = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -39,6 +43,7 @@ private SharedPreferences.Editor editor;
         radioGroup = findViewById(R.id.radioGroup);
         btnSave = findViewById(R.id.btnSave);
         switchYear = findViewById(R.id.switchYear);
+        btnLoad = findViewById(R.id.btnLoad);
 
     }
     public void btnSaveOnClick(View v) {
@@ -69,9 +74,21 @@ private SharedPreferences.Editor editor;
             switchState = false;
         }
 
-        String toString = gson.toJson(new Student(nameText,emailText,switchState,genderStr));
+
+        arrayList.add(new Student(nameText,emailText,switchState,genderStr));
+        String toString = gson.toJson(arrayList);
         editor.putString("jsonObject", toString);
         editor.commit();
         Toast.makeText(getApplicationContext(), toString, Toast.LENGTH_SHORT).show();
+    }
+
+    public void btnLoadOnClick(View v){
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        Gson gson = new Gson();
+        String str = prefs.getString("jsonObject","");
+        Student[] student = gson.fromJson(str, Student[].class);
+
+        Toast.makeText(this, "number of students" + student.length
+                , Toast.LENGTH_SHORT).show();
     }
 }
